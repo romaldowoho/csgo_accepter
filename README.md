@@ -1,2 +1,2 @@
 # csgo_accepter
-Now you can accept a game remotely
+Allows you to accept a CSGO game remotely.
