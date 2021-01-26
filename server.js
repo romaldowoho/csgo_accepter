@@ -1,6 +1,5 @@
 const Koa = require('koa');
 const shell = require('shelljs');
-const ngrok = require('ngrok');
 const TelegramBot = require('node-telegram-bot-api');
 const bodyParser = require("koa-body");
 
@@ -14,6 +13,7 @@ app.use(bodyParser({
 const PORT = 3000;
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+const IMG_PATH = "C:\\Users\\Admin\\Desktop\\cs_accepter\\accept.bmp"
 let x, y; // coordinates of the accept img
 let request_received = false; // to make sure the "found image" request is processed only once
 
@@ -28,7 +28,9 @@ app.use(async ctx => {
 	console.log("Got request");
 	if (ctx.request.url === "/favicon.ico") return;
 
-	let coords = ctx.request.header.cookie;
+	console.log(ctx.request.header);
+
+	let coords = ctx.request.header.coords;
 	if (coords && !request_received) {
 		let xy = coords.split(',');
 		x = +xy[0] + 20; // 20 pixels offset to click
@@ -43,5 +45,5 @@ app.use(async ctx => {
 
 app.listen(PORT, async () => {
 	console.log("Listening on port " + PORT);
-	shell.exec("FIND_IMAGE.ahk", {async: true});
+	shell.exec(`FIND_IMAGE.ahk ${PORT} ${IMG_PATH}`, {async: true}); 
 });
