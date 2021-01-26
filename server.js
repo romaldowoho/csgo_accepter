@@ -28,8 +28,6 @@ app.use(async ctx => {
 	console.log("Got request");
 	if (ctx.request.url === "/favicon.ico") return;
 
-	console.log(ctx.request.header);
-
 	let coords = ctx.request.header.coords;
 	if (coords && !request_received) {
 		let xy = coords.split(',');
